@@ -3,7 +3,7 @@
 client_id = "ac3005cbaaec2e00beac551df933d806"
 name = "abp-demo-app"
 handle = "abp-demo-app"
-application_url = "https://workforce-chick-indeed-naval.trycloudflare.com"
+application_url = "https://powell-workers-disks-lens.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://workforce-chick-indeed-naval.trycloudflare.com/auth/callback",
-  "https://workforce-chick-indeed-naval.trycloudflare.com/auth/shopify/callback",
-  "https://workforce-chick-indeed-naval.trycloudflare.com/api/auth/callback"
+  "https://powell-workers-disks-lens.trycloudflare.com/auth/callback",
+  "https://powell-workers-disks-lens.trycloudflare.com/auth/shopify/callback",
+  "https://powell-workers-disks-lens.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
