@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "d247418f8483ca2f89039e96374ffe32"
+name = "abp-demo-app"
+handle = "abp-demo-app-1"
+application_url = "https://collectors-separate-loc-rewards.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "abp-integration.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+
+[auth]
+redirect_urls = [
+  "https://collectors-separate-loc-rewards.trycloudflare.com/auth/callback",
+  "https://collectors-separate-loc-rewards.trycloudflare.com/auth/shopify/callback",
+  "https://collectors-separate-loc-rewards.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+[pos]
+embedded = false
