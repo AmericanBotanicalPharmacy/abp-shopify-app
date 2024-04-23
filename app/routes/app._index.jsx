@@ -93,7 +93,6 @@ const QRTableRow = ({ qrCode }) => (
       )}
     </IndexTable.Cell>
     <IndexTable.Cell>
-      {new Date(qrCode.createdAt).toDateString()}
     </IndexTable.Cell>
     <IndexTable.Cell>{qrCode.scans}</IndexTable.Cell>
   </IndexTable.Row>
