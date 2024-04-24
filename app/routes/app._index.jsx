@@ -115,7 +115,7 @@ export default function Index() {
             {qrCodes.length === 0 ? (
               <EmptyQRCodeState onAction={() => navigate("qrcodes/new")} />
             ) : (
-              <>test</>
+              <QRTable qrCodes={qrCodes} />
             )}
           </Card>
         </Layout.Section>
