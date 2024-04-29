@@ -28,6 +28,7 @@ function App() {
   const [initialValues, setInitialValues] = useState([]);
   const [issues, setIssues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [qrCodes, setQrCodes] = useState([]);
 
   const productId = data.selected[0].id;
   const issuesCount = issues.length;
@@ -49,8 +50,10 @@ function App() {
         setIssues(parsedIssues);
       }
     })();
-    const data = fetch('/qrcodes')
-    console.log(data)
+    const qrCodesData = fetch('/qrcodes')
+    if(qrCodesData?.data?.qrCodes) {
+      setQrCodes(qrCodesData.data.qrCodes)
+    }
   }, [productId]);
 
   const paginatedIssues = useMemo(() => {
@@ -111,6 +114,7 @@ function App() {
       // Translate the block title with the i18n API, which uses the strings in the locale files
       title={i18n.translate("name")}
     >
+      {qrCodes}
       <Text>Issues</Text>
       <Form id={`issues-form`} onSubmit={onSubmit} onReset={onReset}>
         {issues.length ? (
