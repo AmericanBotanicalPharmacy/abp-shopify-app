@@ -3,7 +3,7 @@
 client_id = "ac3005cbaaec2e00beac551df933d806"
 name = "abp-demo-app"
 handle = "abp-demo-app"
-application_url = "https://powell-workers-disks-lens.trycloudflare.com"
+application_url = "https://abp-shopify-staging-6b3027099374.herokuapp.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://powell-workers-disks-lens.trycloudflare.com/auth/callback",
-  "https://powell-workers-disks-lens.trycloudflare.com/auth/shopify/callback",
-  "https://powell-workers-disks-lens.trycloudflare.com/api/auth/callback"
+  "https://abp-shopify-staging-6b3027099374.herokuapp.com/auth/callback",
+  "https://abp-shopify-staging-6b3027099374.herokuapp.com/auth/shopify/callback",
+  "https://abp-shopify-staging-6b3027099374.herokuapp.com/api/auth/callback"
 ]
 
 [webhooks]

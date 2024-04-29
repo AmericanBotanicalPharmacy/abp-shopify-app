@@ -3,7 +3,7 @@
 client_id = "d247418f8483ca2f89039e96374ffe32"
 name = "abp-demo-app"
 handle = "abp-demo-app-1"
-application_url = "https://collectors-separate-loc-rewards.trycloudflare.com"
+application_url = "https://abp-shopify-staging-6b3027099374.herokuapp.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://collectors-separate-loc-rewards.trycloudflare.com/auth/callback",
-  "https://collectors-separate-loc-rewards.trycloudflare.com/auth/shopify/callback",
-  "https://collectors-separate-loc-rewards.trycloudflare.com/api/auth/callback"
+  "https://abp-shopify-staging-6b3027099374.herokuapp.com/auth/callback",
+  "https://abp-shopify-staging-6b3027099374.herokuapp.com/auth/shopify/callback",
+  "https://abp-shopify-staging-6b3027099374.herokuapp.com/api/auth/callback"
 ]
 
 [webhooks]
