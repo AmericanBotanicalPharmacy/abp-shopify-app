@@ -205,7 +205,11 @@ function App() {
             </Box>
           </>
         )}
-        Qrcodes count: {qrCodes.length}
+        <Box>
+          <Text>
+            Qrcodes count: {qrCodes.length}
+          </Text>
+        </Box>
       </Form>
     </AdminBlock>
   );
