@@ -114,7 +114,6 @@ function App() {
       // Translate the block title with the i18n API, which uses the strings in the locale files
       title={i18n.translate("name")}
     >
-      {qrCodes}
       <Text>Issues</Text>
       <Form id={`issues-form`} onSubmit={onSubmit} onReset={onReset}>
         {issues.length ? (
@@ -206,6 +205,7 @@ function App() {
             </Box>
           </>
         )}
+        Qrcodes count: {qrCodes.length}
       </Form>
     </AdminBlock>
   );
