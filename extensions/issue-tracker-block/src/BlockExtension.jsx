@@ -49,6 +49,8 @@ function App() {
         setIssues(parsedIssues);
       }
     })();
+    const data = fetch('/qrcodes')
+    console.log(data)
   }, [productId]);
 
   const paginatedIssues = useMemo(() => {
