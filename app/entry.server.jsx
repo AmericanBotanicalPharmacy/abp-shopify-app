@@ -30,6 +30,9 @@ export default async function handleRequest(
           const stream = createReadableStreamFromReadable(body);
 
           responseHeaders.set("Content-Type", "text/html");
+          responseHeaders.set('Access-Control-Allow-Origin', 'https://extensions.shopifycdn.com');
+          responseHeaders.set('Access-Control-Allow-Credentials', 'true');
+
           resolve(
             new Response(stream, {
               headers: responseHeaders,
