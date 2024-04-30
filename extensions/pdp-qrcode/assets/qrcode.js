@@ -1,5 +1,5 @@
 (function () {
-  function getQrcode(productId) {
+  async function getQrcode(productId) {
     const fetchOptions = {
       method: "GET",
       headers: {
@@ -7,17 +7,19 @@
       }
     };
 
-    return fetch("/apps/abp-demo-proxy/qrcode?product_id="+productId, fetchOptions);
+    const response = await fetch("/apps/abp-demo-proxy/qrcode?product_id="+productId, fetchOptions);
+    const jsonData = await response.json();
+    return jsonData;
   }
 
   async function initializeQrcode() {
     const elem = document.getElementById("product-qrcode-block");
-    const response = await getQrcode(elem.dataset.productId)
-    console.log(response)
-    const data = response.json()
-    const image = new Image()
-    image.src = data.image;
-    elem.appendChild(image);
+    getQrcode(elem.dataset.productId).then(data=>{
+      console.log(data)
+      const image = new Image()
+      image.src = data.image;
+      elem.appendChild(image);  
+    })
   }
 
   initializeQrcode();
