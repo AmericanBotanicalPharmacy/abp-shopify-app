@@ -28,8 +28,10 @@ export async function getQRCodes(shop, graphql) {
 export async function getQRCodesByProduct(shop, graphql, productId) {
   const qrCodes = await db.qRCode.findMany({
     where: {
-      shop: shop,
-      product: productId
+      AND: [
+        { shop },
+        { productId },
+      ]
     },
     orderBy: { id: "desc" },
   });
