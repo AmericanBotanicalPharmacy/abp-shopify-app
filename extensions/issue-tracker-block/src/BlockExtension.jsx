@@ -28,7 +28,6 @@ function App() {
   const [initialValues, setInitialValues] = useState([]);
   const [issues, setIssues] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [qrCodes, setQrCodes] = useState([]);
 
   const productId = data.selected[0].id;
   const issuesCount = issues.length;
@@ -50,10 +49,6 @@ function App() {
         setIssues(parsedIssues);
       }
     })();
-    const qrCodesData = fetch('/qrcodes')
-    if(qrCodesData?.data?.qrCodes) {
-      setQrCodes(qrCodesData.data.qrCodes)
-    }
   }, [productId]);
 
   const paginatedIssues = useMemo(() => {
@@ -205,11 +200,6 @@ function App() {
             </Box>
           </>
         )}
-        <Box>
-          <Text>
-            Qrcodes count: {qrCodes.length}
-          </Text>
-        </Box>
       </Form>
     </AdminBlock>
   );

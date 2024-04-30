@@ -25,6 +25,19 @@ export async function getQRCodes(shop, graphql) {
   );
 }
 
+export async function getQRCodesByProduct(shop, graphql, productId) {
+  const qrCodes = await db.qRCode.findMany({
+    where: { shop, productId },
+    orderBy: { id: "desc" },
+  });
+
+  if (qrCodes.length === 0) return [];
+
+  return Promise.all(
+    qrCodes.map((qrCode) => supplementQRCode(qrCode, graphql))
+  );
+}
+
 export function getQRCodeImage(id) {
   const url = new URL(`/qrcodes/${id}/scan`, process.env.SHOPIFY_APP_URL);
   return qrcode.toDataURL(url.href);

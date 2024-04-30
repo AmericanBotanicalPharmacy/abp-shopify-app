@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from "react";
+
 import {
   reactExtension,
   useApi,
@@ -14,13 +16,24 @@ export default reactExtension(TARGET, () => <App />);
 function App() {
   // The useApi hook provides access to several useful APIs like i18n and data.
   const {i18n, data} = useApi(TARGET);
-  console.log({data});
+  const productId = data.selected[0].id;
+  const [qrCodes, setQrCodes] = useState([]);
+
+  useEffect(() => {
+    (async function getQrCodes() {
+      const qrCodesData = await fetch('/qrcodes?product_id='+productId);
+      console.log(qrCodesData)
+      if(qrCodesData?.data?.qrCodes) {
+        setQrCodes(qrCodesData.data.qrCodes)
+      }
+    })();
+
+  }, [productId]);
 
   return (
-    // The AdminBlock component provides an API for setting the title of the Block extension wrapper.
-    <AdminBlock title="My Block Extension">
+    <AdminBlock title="Product Qrcodes">
       <BlockStack>
-        <Text fontWeight="bold">{i18n.translate('welcome', {TARGET})}</Text>
+        <Text fontWeight="bold">{qrCodes.length}</Text>
       </BlockStack>
     </AdminBlock>
   );
