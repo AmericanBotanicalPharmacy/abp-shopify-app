@@ -5,9 +5,7 @@ import { getQRCodesByProduct, getQRCodeImage } from "../models/QRCode.server";
 
 export async function loader({ request }) {
   const { admin, session, cors } = await authenticate.admin(request);
-  console.log(request.url)
   const url = new URL(request.url);
-  console.log(url.searchParams)
   var productId = url.searchParams.get("product_id");
 
   const qrCodesData = await getQRCodesByProduct(session.shop, admin.graphql, productId);
