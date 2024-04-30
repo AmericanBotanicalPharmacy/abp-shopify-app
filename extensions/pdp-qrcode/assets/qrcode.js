@@ -4,13 +4,10 @@
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        product_id: productId,
-      }),
+      }
     };
 
-    return fetch("/apps/qrcodes/code", fetchOptions);
+    return fetch("/apps/qrcodes/code?product_id="+productId, fetchOptions);
   }
 
   function initializeQrcode() {
