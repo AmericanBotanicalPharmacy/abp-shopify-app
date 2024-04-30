@@ -8,8 +8,7 @@ export async function loader({ request }) {
   console.log(request.url)
   const url = new URL(request.url);
   console.log(url.searchParams)
-  var splitStr = url.searchParams.get("product_id").split("/");
-  var productId = splitStr[splitStr.length - 1];
+  var productId = url.searchParams.get("product_id");
 
   const qrCodes = await getQRCodesByProduct(session.shop, admin.graphql, productId);
 
