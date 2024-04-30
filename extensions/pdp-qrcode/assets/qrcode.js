@@ -15,10 +15,10 @@
   async function initializeQrcode() {
     const elem = document.getElementById("product-qrcode-block");
     getQrcode(elem.dataset.productId).then(data=>{
-      console.log(data)
       const image = new Image()
       image.src = data.image;
       elem.appendChild(image);  
+      elem.style.display='block';
     })
   }
 

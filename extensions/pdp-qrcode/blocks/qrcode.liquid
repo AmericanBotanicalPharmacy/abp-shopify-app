@@ -1,4 +1,8 @@
-<div id="product-qrcode-block" data-product-id="{{ block.settings.product.id }}"></div>
+{{ 'qrcode.css' | asset_url | stylesheet_tag }}
+
+<div id="product-qrcode-block" data-product-id="{{ block.settings.product.id }}" style="display:none;">
+  <p class="product-qrcode-title">Scan the QR Code to Buy Quickly</p>
+</div>
 
 <script src="{{ 'qrcode.js' | asset_url }}" defer></script>
 
