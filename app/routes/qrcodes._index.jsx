@@ -8,7 +8,8 @@ export async function loader({ request, params }) {
   var splitStr = params.product_id.split("/");
   var productId = parseInt(splitStr[splitStr.length - 1], 10);
 
-  const qrCodes = await getQRCodesByProduct(session.shop, admin.graphql, productId);
+  const response = await getQRCodesByProduct(session.shop, admin.graphql, productId);
+  const qrCodes = response.json().qrCodes;
 
   return cors(json({
     qrCodes,
