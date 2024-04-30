@@ -6,6 +6,14 @@ import {
   AdminBlock,
   BlockStack,
   Text,
+  Box,
+  Button,
+  Divider,
+  Form,
+  Icon,
+  InlineStack,
+  ProgressIndicator,
+  Select,
 } from '@shopify/ui-extensions-react/admin';
 
 // The target used here must match the target used in the extension's toml file (./shopify.extension.toml)
@@ -23,8 +31,8 @@ function App() {
     (async function getQrCodes() {
       const response = await fetch('/qrcodes?product_id='+productId);
       const qrCodesData = await response.json();
-      if(qrCodesData?.data?.qrCodes) {
-        setQrCodes(qrCodesData.data.qrCodes)
+      if(qrCodesData?.qrCodes) {
+        setQrCodes(qrCodesData.qrCodes)
       }
     })();
 
@@ -33,7 +41,28 @@ function App() {
   return (
     <AdminBlock title="Product Qrcodes">
       <BlockStack>
-        <Text fontWeight="bold">{qrCodes.length}</Text>
+      {qrCodes.map(
+          ({ id, title }, index) => {
+            return (
+              <>
+                {index > 0 && <Divider />}
+                <Box key={id} padding="base small">
+                  <InlineStack
+                    blockAlignment="center"
+                    inlineSize="100%"
+                    gap="large"
+                  >
+                    <Box inlineSize="53%">
+                      <Box inlineSize="100%">
+                        <Text fontWeight="bold" textOverflow="ellipsis">{title}</Text>
+                      </Box>
+                    </Box>
+                  </InlineStack>
+                </Box>
+              </>
+            );
+          }
+        )}
       </BlockStack>
     </AdminBlock>
   );
