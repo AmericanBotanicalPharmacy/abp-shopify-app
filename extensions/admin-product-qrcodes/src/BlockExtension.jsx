@@ -21,8 +21,8 @@ function App() {
 
   useEffect(() => {
     (async function getQrCodes() {
-      const qrCodesData = await fetch('/qrcodes?product_id='+productId);
-      console.log(qrCodesData)
+      const response = await fetch('/qrcodes?product_id='+productId);
+      const qrCodesData = await response.json();
       if(qrCodesData?.data?.qrCodes) {
         setQrCodes(qrCodesData.data.qrCodes)
       }
