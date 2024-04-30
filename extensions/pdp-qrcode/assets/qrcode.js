@@ -10,10 +10,14 @@
     return fetch("/apps/abp-demo-proxy/qrcode?product_id="+productId, fetchOptions);
   }
 
-  function initializeQrcode() {
+  async function initializeQrcode() {
     const elem = document.getElementById("product-qrcode-block");
-    console.log(elem.dataset)
-    getQrcode(elem.dataset.productId)
+    const response = await getQrcode(elem.dataset.productId)
+    console.log(response)
+    const data = response.json()
+    const image = new Image()
+    image.src = data.image;
+    elem.appendChild(image);
   }
 
   initializeQrcode();
