@@ -9,7 +9,7 @@ export async function loader({ request }) {
   const url = new URL(request.url);
   console.log(url.searchParams)
   var splitStr = url.searchParams.get("product_id").split("/");
-  var productId = parseInt(splitStr[splitStr.length - 1], 10);
+  var productId = splitStr[splitStr.length - 1];
 
   const qrCodes = await getQRCodesByProduct(session.shop, admin.graphql, productId);
 
