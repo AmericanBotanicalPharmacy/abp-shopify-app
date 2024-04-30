@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 
-import db from "../db.server";
-import { getQRCodeImage } from "../models/QRCode.server";
+import db from "../../db.server";
+import { getQRCodeImage } from "../../models/QRCode.server";
 
 export async function loader({ params }) {
   const productId = Number(params.product_id);
