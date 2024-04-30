@@ -7,7 +7,7 @@
       }
     };
 
-    return fetch("/apps/qrcodes/code?product_id="+productId, fetchOptions);
+    return fetch("/apps/abp-demo-proxy/qrcode?product_id="+productId, fetchOptions);
   }
 
   function initializeQrcode() {
