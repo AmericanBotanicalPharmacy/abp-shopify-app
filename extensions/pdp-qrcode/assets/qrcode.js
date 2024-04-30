@@ -16,6 +16,7 @@
   function initializeQrcode() {
     const elem = document.getElementById("product-qrcode-block");
     console.log(elem.dataset)
+    getQrcode(elem.dataset.productId)
   }
 
   initializeQrcode();
