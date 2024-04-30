@@ -7,7 +7,9 @@ import { getQRCodeImage } from "../../models/QRCode.server";
 export async function loader({ params }) {
   const productId = params.product_id;
 
-  const qrCode = await db.qRCode.findFirst({ where: { productId } });
+  const qrCode = await db.qRCode.findFirst({ where: { productId: {
+    contains: productId
+  } } });
 
   invariant(qrCode, "Could not find QR code destination");
 
