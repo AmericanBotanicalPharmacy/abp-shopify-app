@@ -9,13 +9,15 @@ export async function loader({ request }) {
   var productId = url.searchParams.get("product_id");
 
   const qrCodesData = await getQRCodesByProduct(session.shop, admin.graphql, productId);
-  const qrCodes = qrCodesData.map(async (datum)=> {
-    return {
-      id: datum.id,
-      title: datum.title,
-      image: await getQRCodeImage(datum.id)
-    }
-  })
+  const qrCodes = qrCodesData.map(datum => ({
+    id: datum.id,
+    title: datum.title,
+  }));
+
+  for (let i = 0; i < qrCodes.length; i++) {
+    qrCodes[i].image = await getQRCodeImage(qrCodesData[i].id);
+  }
+
   return cors(json({
     qrCodes: qrCodes
   }));
