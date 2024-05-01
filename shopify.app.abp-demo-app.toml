@@ -25,10 +25,10 @@ redirect_urls = [
 [webhooks]
 api_version = "2024-04"
 
-[pos]
-embedded = false
-
 [app_proxy]
 url = "https://abp-shopify-staging-6b3027099374.herokuapp.com/proxy"
 subpath = "abp-demo-proxy"
 prefix = "apps"
+
+[pos]
+embedded = false

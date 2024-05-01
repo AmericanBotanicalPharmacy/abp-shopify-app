@@ -39,7 +39,7 @@ export async function loader({ request, params }) {
     const url = new URL(request.url);
     var productId = url.searchParams.get("product_id");
     if(productId) {
-      const product = await admin.products.getProduct(productId);
+      const product = await admin.getProduct(productId);
       console.log(product)
       if(product) {
         const { images, id, variants, title, handle } = product;
