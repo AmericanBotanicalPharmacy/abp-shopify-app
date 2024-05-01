@@ -12,6 +12,7 @@ export async function loader({ request }) {
   const qrCodes = qrCodesData.map(datum => ({
     id: datum.id,
     title: datum.title,
+    imageUrl: process.env.SHOPIFY_APP_URL + "/app/qrcodeimage/"+datum.id
   }));
 
   for (let i = 0; i < qrCodes.length; i++) {
