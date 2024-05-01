@@ -59,11 +59,6 @@ function App() {
                     inlineSize="100%"
                     gap="large"
                   >
-                    <Box inlineSize="53%">
-                      <Box inlineSize="100%">
-                        <Text fontWeight="bold" textOverflow="ellipsis">{title}</Text>
-                      </Box>
-                    </Box>
                     <Box inlineSize="40%">
                       <Box inlineSize="100%">
                         <Image src={imageUrl} />
