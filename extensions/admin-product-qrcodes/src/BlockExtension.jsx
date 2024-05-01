@@ -49,7 +49,7 @@ function App() {
           </Link>
         </>}
       {qrCodes.map(
-          ({ id, title, image }, index) => {
+          ({ id, title, imageUrl }, index) => {
             return (
               <>
                 {index > 0 && <Divider />}
@@ -66,6 +66,7 @@ function App() {
                     </Box>
                     <Box inlineSize="40%">
                       <Box inlineSize="100%">
+                        <Image src={imageUrl} />
                       </Box>
                     </Box>
                   </InlineStack>
