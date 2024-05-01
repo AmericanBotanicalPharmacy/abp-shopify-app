@@ -8,7 +8,7 @@ export async function loader({ params }) {
   var id = params.id;
   const qrCode = await db.qRCode.findUnique({
     where: {
-      id: id
+      id: Number(id)
     }
   });
 
