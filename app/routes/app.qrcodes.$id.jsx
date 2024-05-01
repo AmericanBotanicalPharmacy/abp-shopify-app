@@ -50,8 +50,8 @@ export async function loader({ request, params }) {
         return json({
           title: "",
           destination: "product",
-          productId: id,
-          productVariantId: variants[0].id,
+          productId: "gid://shopify/Product/"+id,
+          productVariantId: "gid://shopify/ProductVariant/"+variants[0].id,
           productTitle: title,
           productHandle: handle,
           productAlt: product.image?.alt,
