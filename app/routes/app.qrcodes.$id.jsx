@@ -54,8 +54,8 @@ export async function loader({ request, params }) {
           productVariantId: variants[0].id,
           productTitle: title,
           productHandle: handle,
-          productAlt: images[0]?.altText,
-          productImage: images[0]?.originalSrc
+          productAlt: product.image?.alt,
+          productImage: product.image?.src
         })
       }
     }
