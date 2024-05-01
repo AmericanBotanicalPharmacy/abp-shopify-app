@@ -38,7 +38,7 @@ export async function loader({ request, params }) {
   if (params.id === "new") {
     const url = new URL(request.url);
     var productId = url.searchParams.get("product_id");
-    if(productId) {
+    if(productId && request.method == 'GET') {
       console.log(productId)
       const response = await admin.rest.get({ path: "products/"+productId+".json" });
       const responseJson = await response.json();
