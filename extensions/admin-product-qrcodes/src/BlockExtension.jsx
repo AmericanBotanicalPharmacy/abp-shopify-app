@@ -14,7 +14,8 @@ import {
   InlineStack,
   ProgressIndicator,
   Select,
-  Image
+  Image,
+  Link
 } from '@shopify/ui-extensions-react/admin';
 
 // The target used here must match the target used in the extension's toml file (./shopify.extension.toml)
@@ -42,6 +43,11 @@ function App() {
   return (
     <AdminBlock title="Product Qrcodes">
       <BlockStack>
+        {qrCodes.length == 0 && <>
+          <Link href={"app:app/qrcodes/new?product_id="+productId}>
+            Add New QrCode
+          </Link>
+        </>}
       {qrCodes.map(
           ({ id, title, image }, index) => {
             return (
@@ -60,7 +66,6 @@ function App() {
                     </Box>
                     <Box inlineSize="40%">
                       <Box inlineSize="100%">
-                        <Image src={image} />
                       </Box>
                     </Box>
                   </InlineStack>
