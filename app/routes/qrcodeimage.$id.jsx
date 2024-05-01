@@ -17,10 +17,10 @@ export async function loader({ params }) {
   const url = new URL(`/qrcodes/${id}/scan`, process.env.SHOPIFY_APP_URL);
   const qrData = await qrcode.toDataURL(url.href);
 
-  return json(null, {
+  return {
     headers: {
       "Content-Type": "image/png", // Specify the image type
     },
     body: qrData,
-  });
+  };
 }
