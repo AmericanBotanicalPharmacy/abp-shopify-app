@@ -34,9 +34,11 @@ import { getQRCode, validateQRCode } from "../models/QRCode.server";
 export async function loader({ request, params }) {
   const { admin } = await authenticate.admin(request);
 
+  console.log(params)
   if (params.id === "new") {
     if(params.product_id) {
       const product = await admin.products.getProduct(params.product_id);
+      console.log(product)
       if(product) {
         const { images, id, variants, title, handle } = product;
 
