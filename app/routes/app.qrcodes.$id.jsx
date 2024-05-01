@@ -35,6 +35,23 @@ export async function loader({ request, params }) {
   const { admin } = await authenticate.admin(request);
 
   if (params.id === "new") {
+    if(params.product_id) {
+      const product = await admin.products.getProduct(params.product_id);
+      if(product) {
+        const { images, id, variants, title, handle } = product;
+
+        return json({
+          title: "",
+          destination: "product",
+          productId: id,
+          productVariantId: variants[0].id,
+          productTitle: title,
+          productHandle: handle,
+          productAlt: images[0]?.altText,
+          productImage: images[0]?.originalSrc
+        })
+      }
+    }
     return json({
       destination: "product",
       title: "",
