@@ -1,7 +1,7 @@
 import qrcode from "qrcode";
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { fs } from 'fs';
+import * as fs from 'fs';
 
 import db from "../db.server";
 
