@@ -16,10 +16,8 @@ export async function loader({ params }) {
   invariant(qrCode, "Could not find QR code destination");
 
   const url = new URL(`/qrcodes/${id}/scan`, process.env.SHOPIFY_APP_URL);
-  await qrcode.toFile(url.href);
-
   const filename = "qrcode_" + id + ".png"
-  await qrcode.toFile(filename, data, { width: 256, type: 'png' });
+  await qrcode.toFile(filename, url, { width: 256, type: 'png' });
 
   const imageBuffer = await fs.promises.readFile(filename);
   return new Response(imageBuffer, {
