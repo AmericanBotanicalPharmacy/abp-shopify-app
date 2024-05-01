@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { json, redirect } from "@remix-run/node";
+import { json, redirect, } from "@remix-run/node";
 import {
   useActionData,
   useLoaderData,
   useNavigation,
   useSubmit,
   useNavigate,
+  useParams,
 } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
 import {
@@ -74,6 +75,8 @@ export async function action({ request, params }) {
 
 export default function QRCodeForm() {
   const errors = useActionData()?.errors || {};
+  const params = useParams();
+  const productId = params.productId;
 
   const qrCode = useLoaderData();
   const [formState, setFormState] = useState(qrCode);
@@ -122,10 +125,6 @@ export default function QRCodeForm() {
     setCleanFormState({ ...formState });
     submit(data, { method: "post" });
   }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('product_id');
-  console.log(productId)
 
   if (productId) {
     fetch(`/products/${productId}.json`)
