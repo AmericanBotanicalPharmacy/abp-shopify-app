@@ -44,7 +44,7 @@ function App() {
     <AdminBlock title="Product Qrcodes">
       <BlockStack>
         {qrCodes.length == 0 && <>
-          <Link href={"app:app/qrcodes/new?product_id="+productId}>
+          <Link href={"app:app/qrcodes/new?product_id="+productId.split('/').pop()}>
             Add New QrCode
           </Link>
         </>}

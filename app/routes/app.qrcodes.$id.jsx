@@ -123,6 +123,18 @@ export default function QRCodeForm() {
     submit(data, { method: "post" });
   }
 
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('product_id');
+  console.log(productId)
+
+  if (productId) {
+    fetch(`/products/${productId}.json`)
+      .then(response => response.json())
+      .then(productData => {
+        console.log(productData)
+      });
+  }
+
   return (
     <Page>
       <ui-title-bar title={qrCode.id ? "Edit QR code" : "Create new QR code"}>
