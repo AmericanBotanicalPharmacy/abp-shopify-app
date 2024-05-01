@@ -36,8 +36,10 @@ export async function loader({ request, params }) {
 
   console.log(params)
   if (params.id === "new") {
-    if(params.product_id) {
-      const product = await admin.products.getProduct(params.product_id);
+    const url = new URL(request.url);
+    var productId = url.searchParams.get("product_id");
+    if(productId) {
+      const product = await admin.products.getProduct(productId);
       console.log(product)
       if(product) {
         const { images, id, variants, title, handle } = product;
