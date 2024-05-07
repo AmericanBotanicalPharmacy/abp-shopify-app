@@ -58,11 +58,17 @@ function App() {
     })();
   }, [data.selected]);
 
-  const onCreate = () => {
+  const onCreate = async () => {
     const {isValid, errors} = validateForm(title);
     setFormErrors(errors);
     if (isValid) {
-      console.log('create qrcode')
+      const res = await fetch("app:app/qrcodes/create", { method: "POST", body: JSON.stringify({product_id: data.selected[0].id, title: title })})
+      if(res.ok) {
+        close()
+      } else {
+        console.log('fail to create')
+        console.log(res)
+      }
     }
   }
 
