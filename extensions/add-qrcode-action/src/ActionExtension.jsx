@@ -116,7 +116,7 @@ function App() {
         onChange={(_destination) => {
           setDestination(_destination)
         }}
-        error={formErrors?.destination}
+        error={formErrors?.destination ? "Please choose destination" : undefined}
       />
 
     </AdminAction>
