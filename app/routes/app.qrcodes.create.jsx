@@ -28,8 +28,8 @@ import {
 } from "@shopify/polaris";
 import { ImageIcon } from "@shopify/polaris-icons";
 
-import db from "../db.server";
-import { getQRCode, validateQRCode } from "../models/QRCode.server";
+// import db from "../db.server";
+// import { getQRCode, validateQRCode } from "../models/QRCode.server";
 
 export async function action({ request, params }) {
   const { session, admin } = await authenticate.admin(request);
@@ -46,7 +46,7 @@ export async function action({ request, params }) {
 
 
     const data = {
-      
+
     }
     await db.qRCode.create({ data })
   }
