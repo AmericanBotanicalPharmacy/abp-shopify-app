@@ -7,6 +7,7 @@ import {
   Button,
   Text,
   TextField,
+  ChoiceList,
 } from '@shopify/ui-extensions-react/admin';
 
 // The target used here must match the target used in the extension's toml file (./shopify.extension.toml)
@@ -14,11 +15,12 @@ const TARGET = 'admin.product-details.action.render';
 
 export default reactExtension(TARGET, () => <App />);
 
-function validateForm (title) {
+function validateForm (title, destination) {
   return {
     isValid: Boolean(title),
     errors: {
-      title: !title
+      title: !title,
+      destination: !(destination.length == 0)
     },
   };
 };
@@ -30,6 +32,7 @@ function App() {
   const [productTitle, setProductTitle] = useState('');
   const [formErrors, setFormErrors] = useState(null);
   const [title, setTitle] = useState(null);
+  const [destination, setDestination] = useState('product');
 
   // Use direct API calls to fetch data from Shopify.
   // See https://shopify.dev/docs/api/admin-graphql for more information about Shopify's GraphQL API
@@ -59,10 +62,11 @@ function App() {
   }, [data.selected]);
 
   const onCreate = async () => {
-    const {isValid, errors} = validateForm(title);
+    const {isValid, errors} = validateForm(title, destination);
     setFormErrors(errors);
     if (isValid) {
-      const res = await fetch("app:app/qrcodes/create", { method: "POST", body: JSON.stringify({product_id: data.selected[0].id, title: title })})
+      console.log(destination)
+      const res = await fetch("app:app/qrcodes/create", { method: "POST", body: JSON.stringify({product_id: data.selected[0].id, title: title, destination: destination[0] })})
       if(res.ok) {
         close()
       } else {
@@ -99,6 +103,22 @@ function App() {
         label="Title"
         maxLength={50}
       />
+      <ChoiceList
+        title="Scan destination"
+        choices={[
+          { label: "Link to product page", id: "product" },
+          {
+            label: "Link to checkout page with product in the cart",
+            id: "cart",
+          },
+        ]}
+        value={destination}
+        onChange={(_destination) => {
+          setDestination(_destination)
+        }}
+        error={formErrors?.destination}
+      />
+
     </AdminAction>
   );
 }

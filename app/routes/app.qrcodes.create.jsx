@@ -34,13 +34,17 @@ import { ImageIcon } from "@shopify/polaris-icons";
 // import { getQRCode, validateQRCode } from "../models/QRCode.server";
 
 export async function action({ request, params }) {
-  const { session, admin } = await authenticate.admin(request);
+  const { session, admin, cors } = await authenticate.admin(request);
   const { shop } = session;
 
+  console.log('request')
   const requestJson = await request.json()
 
-  const response = await admin.rest.get({ path: "products/"+requestJson.product_id+".json" });
+  console.log('request json ')
+  console.log(requestJson)
+  const response = await admin.rest.get({ path: "products/"+requestJson.product_id.split('/').pop()+".json" });
   const responseJson = await response.json();
+  console.log('product json: ' + responseJson)
 
   console.log(responseJson)
 
@@ -49,12 +53,12 @@ export async function action({ request, params }) {
     const { images, id, variants, title, handle } = product;
 
     const data = {
-      productId: id,
-      productVariantId: variants[0].id,
-      productTitle: title,
-      productHandle: handle,
-      productAlt: product.image?.alt,
-      productImage: product.image?.src
+      title: requestJson.title,
+      destination: requestJson.destination,
+      shop: shop,
+      productId: String(id),
+      productVariantId: String(variants[0].id),
+      productHandle: handle
     }
     await db.qRCode.create({ data })
   }
