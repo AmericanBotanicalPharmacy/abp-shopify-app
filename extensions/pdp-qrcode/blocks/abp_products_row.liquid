@@ -1,0 +1,26 @@
+<div>
+  {% for product in block.settings.product_list limit: block.settings.limit %}
+    <div class="product-item">
+      <a href="{{ product.url }}">
+        <img src="{{ product.featured_image.src }}" alt="{{ product.title }}">
+        <h3>{{ product.title }}</h3>
+      </a>
+      <p>{{ product.price | money_format }}</p>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "ABPProductsRow",
+  "target": "section",
+  "settings": [
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "limit": 12
+    }
+  ]
+}
+{% endschema %}
