@@ -1,11 +1,13 @@
-<div>
+{{ 'products_row.css' | asset_url | stylesheet_tag }}
+
+<div class="abp-products-row">
   {% for product in block.settings.product_list limit: block.settings.limit %}
     <div class="product-item">
       <a href="{{ product.url }}">
-        {{ product.featured_image | img_url: '600x600' | img_tag: product.featured_image.alt }}
+        {{ product.featured_image | img_url: '200x200' | img_tag: product.featured_image.alt }}
         <h3>{{ product.title }}</h3>
       </a>
-      <p>{{ product.price | money_format }}</p>
+      <p>{{ product.price | money }}</p>
     </div>
   {% endfor %}
 </div>

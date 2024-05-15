@@ -1,0 +1,7 @@
+.abp-products-row {
+  display: flex;
+}
+
+.abp-products-row .product-item {
+  margin: 5px;
+}
