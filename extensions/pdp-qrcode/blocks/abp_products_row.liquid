@@ -2,7 +2,7 @@
   {% for product in block.settings.product_list limit: block.settings.limit %}
     <div class="product-item">
       <a href="{{ product.url }}">
-        <img src="{{ product.featured_image.src }}" alt="{{ product.title }}">
+        {{ product.featured_image | img_url: '600x600' | img_tag: product.featured_image.alt }}
         <h3>{{ product.title }}</h3>
       </a>
       <p>{{ product.price | money_format }}</p>
