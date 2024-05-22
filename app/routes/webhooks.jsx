@@ -9,6 +9,8 @@ export const action = async ({ request }) => {
     throw new Response();
   }
 
+  const payload = await request.json();
+
   switch (topic) {
     case "APP_UNINSTALLED":
       if (session) {
@@ -16,6 +18,9 @@ export const action = async ({ request }) => {
       }
 
       break;
+    case "ORDERS_CREATE":
+      console.log(topic)
+      console.log(payload)
     case "CUSTOMERS_DATA_REQUEST":
     case "CUSTOMERS_REDACT":
     case "SHOP_REDACT":
