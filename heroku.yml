@@ -3,4 +3,4 @@ build:
     web: Dockerfile
   config:
     SHOPIFY_API_KEY: d247418f8483ca2f89039e96374ffe32
-    SCOPES: read_products,write_products,read_orders,read_marketplace_orders
+    SCOPES: read_products,write_products,read_orders

@@ -21,6 +21,7 @@ export const action = async ({ request }) => {
     case "ORDERS_CREATE":
       console.log(topic)
       console.log(payload)
+      break;
     case "CUSTOMERS_DATA_REQUEST":
     case "CUSTOMERS_REDACT":
     case "SHOP_REDACT":
