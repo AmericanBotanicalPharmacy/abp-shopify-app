@@ -9,7 +9,7 @@ export const action = async ({ request }) => {
     throw new Response();
   }
 
-  const payload = await request.json();
+  // const payload = await request.json();
 
   switch (topic) {
     case "APP_UNINSTALLED":
@@ -20,7 +20,7 @@ export const action = async ({ request }) => {
       break;
     case "ORDERS_CREATE":
       console.log(topic)
-      console.log(payload)
+      // console.log(payload)
       break;
     case "CUSTOMERS_DATA_REQUEST":
     case "CUSTOMERS_REDACT":
