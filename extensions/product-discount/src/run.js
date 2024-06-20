@@ -29,8 +29,8 @@ export function run(input) {
   .map(line => {
     return /** @type {Target} */ ({
       // Use the cart line ID to create a discount target
-      cartLine: {
-        id: line.id
+      productVariant: {
+        id: line.merchandise.id
       }
     });
   });
