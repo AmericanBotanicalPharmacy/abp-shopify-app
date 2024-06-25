@@ -1,0 +1,19 @@
+[[extensions]]
+name = "Place Auction Bid"
+type = "flow_action"
+handle = "place-bid"
+description = "Place a bid on an auction"
+runtime_url = "https://your-server-domain/path/to/action/handler"
+
+[settings]
+
+  [[settings.fields]]
+  type = "customer_reference"
+  required = true
+
+  [[settings.fields]]
+  type = "number_decimal"
+  key = "amount"
+  name = "Bid Amount"
+  description = "The amount of the bid"
+  required = true
