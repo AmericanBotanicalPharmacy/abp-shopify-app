@@ -15,7 +15,7 @@ import {
   RequirementType,
   SummaryCard,
   UsageLimitsCard,
-  onBreadcrumbAction,
+  // onBreadcrumbAction,
 } from '@shopify/discount-app-components';
 import {
   Banner,
@@ -243,7 +243,7 @@ export default function MinimumSubtotalNew() {
       title="Create minimumSubtotal discount"
       backAction={{
         content: 'Discounts',
-        onAction: () => onBreadcrumbAction(redirect, true),
+        onAction: () => {},
       }}
       primaryAction={{
         content: 'Save',
@@ -341,7 +341,7 @@ export default function MinimumSubtotalNew() {
             secondaryActions={[
               {
                 content: 'Discard',
-                onAction: () => onBreadcrumbAction(redirect, true),
+                onAction: () => {},
               },
             ]}
           />
