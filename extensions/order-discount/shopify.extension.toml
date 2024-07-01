@@ -17,8 +17,6 @@ description = "t:description"
   path = "dist/function.wasm"
 
   [extensions.ui.paths]
-  create = "/"
-  details = "/"
+  create = "/app/minimum-subtotal/:functionId/new"
+  details = "/app/minimum-subtotal/:functionId/:id"
 
-create = "/app/minimum-subtotal/:functionId/new"
-details = "/app/minimum-subtotal/:functionId/:id"
