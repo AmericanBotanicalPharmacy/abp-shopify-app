@@ -1,37 +1,44 @@
+import { useState } from "react";
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
+import { Provider as AppBridgeReactProvider } from "@shopify/app-bridge-react";
+import polarisStyles from "@shopify/polaris/build/esm/styles.css";
+import { DiscountProvider } from "../components/providers/DiscountProvider";
 import { boundary } from "@shopify/shopify-app-remix/server";
 import { AppProvider } from "@shopify/shopify-app-remix/react";
-import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
-import {I18nContext, I18nManager} from '@shopify/react-i18n';  // <-- add code
 
 import { authenticate } from "../shopify.server";
 
 export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
 
-export const loader = async ({ request }) => {
+export async function loader({ request }) {
   await authenticate.admin(request);
 
-  return json({ apiKey: process.env.SHOPIFY_API_KEY || "" });
-};
+  const url = new URL(request.url);
+
+  return json({
+    apiKey: process.env.SHOPIFY_API_KEY,
+    host: url.searchParams.get("host"),
+  });
+}
 
 export default function App() {
-  const { apiKey } = useLoaderData();
-  const i18nManager = new I18nManager({   // <-- add code
-    locale: 'en'
-  });
+  const { apiKey, host } = useLoaderData();
+  const [config] = useState({ host, apiKey });
 
   return (
     <AppProvider isEmbeddedApp apiKey={apiKey}>
-      <I18nContext.Provider value={i18nManager}> 
-        <ui-nav-menu>
-          <Link to="/app" rel="home">
-            Home
-          </Link>
-          <Link to="/app/additional">Additional page</Link>
-        </ui-nav-menu>
-        <Outlet />
-      </I18nContext.Provider>
+      <AppBridgeReactProvider config={config}>
+        <DiscountProvider>
+          <ui-nav-menu>
+            <Link to="/app" rel="home">
+              Home
+            </Link>
+            <Link to="/app/additional">Additional page</Link>
+          </ui-nav-menu>
+          <Outlet />
+        </DiscountProvider>
+      </AppBridgeReactProvider>
     </AppProvider>
   );
 }
