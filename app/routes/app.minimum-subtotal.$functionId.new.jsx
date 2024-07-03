@@ -243,7 +243,11 @@ export default function MinimumSubtotalNew() {
       title="Create minimumSubtotal discount"
       backAction={{
         content: 'Discounts',
-        onAction: () => {},
+        onAction: () => {
+          redirect.dispatch(Redirect.Action.ADMIN_SECTION, {
+            name: Redirect.ResourceType.Discount,
+          });    
+        },
       }}
       primaryAction={{
         content: 'Save',
@@ -341,7 +345,11 @@ export default function MinimumSubtotalNew() {
             secondaryActions={[
               {
                 content: 'Discard',
-                onAction: () => {},
+                onAction: () => {
+                  redirect.dispatch(Redirect.Action.ADMIN_SECTION, {
+                    name: Redirect.ResourceType.Discount,
+                  });        
+                },
               },
             ]}
           />
