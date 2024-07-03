@@ -24,7 +24,7 @@ export default function App() {
 
   return (
       <AppProvider isEmbeddedApp apiKey={apiKey}>
-        <DiscountProvider locale="en-US">
+        <DiscountProvider locale="en-US" ianaTimezone="America/Los_Angeles">
           <I18nContext.Provider value={i18nManager}> 
             <ui-nav-menu>
               <Link to="/app" rel="home">
