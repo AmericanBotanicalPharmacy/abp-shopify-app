@@ -4,6 +4,7 @@ import { boundary } from "@shopify/shopify-app-remix/server";
 import { AppProvider } from "@shopify/shopify-app-remix/react";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 import {I18nContext, I18nManager} from '@shopify/react-i18n';  // <-- add code
+import { AppProvider as DiscountProvider } from "@shopify/discount-app-components";
 
 import { authenticate } from "../shopify.server";
 
@@ -22,17 +23,19 @@ export default function App() {
   });
 
   return (
-    <I18nContext.Provider value={i18nManager}> 
       <AppProvider isEmbeddedApp apiKey={apiKey}>
-          <ui-nav-menu>
-            <Link to="/app" rel="home">
-              Home
-            </Link>
-            <Link to="/app/additional">Additional page</Link>
-          </ui-nav-menu>
-          <Outlet />
+        <DiscountProvider>
+          <I18nContext.Provider value={i18nManager}> 
+            <ui-nav-menu>
+              <Link to="/app" rel="home">
+                Home
+              </Link>
+              <Link to="/app/additional">Additional page</Link>
+            </ui-nav-menu>
+            <Outlet />
+          </I18nContext.Provider>
+        </DiscountProvider>
       </AppProvider>
-    </I18nContext.Provider>
   );
 }
 
