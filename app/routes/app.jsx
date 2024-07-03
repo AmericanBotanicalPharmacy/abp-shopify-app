@@ -22,17 +22,17 @@ export default function App() {
   });
 
   return (
-    <AppProvider isEmbeddedApp apiKey={apiKey}>
-      <I18nContext.Provider value={i18nManager}> 
-        <ui-nav-menu>
-          <Link to="/app" rel="home">
-            Home
-          </Link>
-          <Link to="/app/additional">Additional page</Link>
-        </ui-nav-menu>
-        <Outlet />
-      </I18nContext.Provider>
-    </AppProvider>
+    <I18nContext.Provider value={i18nManager}> 
+      <AppProvider isEmbeddedApp apiKey={apiKey}>
+          <ui-nav-menu>
+            <Link to="/app" rel="home">
+              Home
+            </Link>
+            <Link to="/app/additional">Additional page</Link>
+          </ui-nav-menu>
+          <Outlet />
+      </AppProvider>
+    </I18nContext.Provider>
   );
 }
 
