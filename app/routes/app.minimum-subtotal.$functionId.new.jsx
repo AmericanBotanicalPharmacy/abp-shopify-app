@@ -139,7 +139,7 @@ export const action = async ({params, request}) => {
 
 const appConfig = {
   apiKey: process.env.SHOPIFY_API_KEY || "", // Replace with your actual API key
-  shopOrigin: new URLSearchParams(window.location.search).get('shop'),
+  shopOrigin: null,
   forceRedirect: true,
 };
 
