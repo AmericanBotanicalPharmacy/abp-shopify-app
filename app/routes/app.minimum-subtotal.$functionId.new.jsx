@@ -4,6 +4,8 @@ import {useForm, useField} from '@shopify/react-form';
 import {useAppBridge} from '@shopify/app-bridge-react';
 import {Redirect} from '@shopify/app-bridge/actions';
 import {CurrencyCode} from '@shopify/react-i18n';
+import { createApp } from '@shopify/app-bridge';
+
 import {Form, useActionData, useNavigation, useSubmit} from '@remix-run/react';
 import {
   ActiveDatesCard,
