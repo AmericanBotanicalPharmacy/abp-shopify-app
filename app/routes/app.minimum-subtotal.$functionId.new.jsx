@@ -1,7 +1,7 @@
 import {useEffect, useMemo} from 'react';
 import {json} from '@remix-run/node';
 import {useForm, useField} from '@shopify/react-form';
-import {useAppBridge, useNavigate} from '@shopify/app-bridge-react';
+import {useAppBridge} from '@shopify/app-bridge-react';
 import {Redirect} from '@shopify/app-bridge/actions';
 import {CurrencyCode} from '@shopify/react-i18n';
 import {Form, useActionData, useNavigation, useSubmit} from '@remix-run/react';
@@ -149,7 +149,6 @@ export default function MinimumSubtotalNew() {
   const currencyCode = CurrencyCode.Cad;
   const submitErrors = actionData?.errors || [];
   const redirect = Redirect.create(app);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (actionData?.errors.length === 0) {
@@ -245,12 +244,9 @@ export default function MinimumSubtotalNew() {
       backAction={{
         content: 'Discounts',
         onAction: () => {
-          navigate({
-            name: 'discounts'
-          })
-          // redirect.dispatch(Redirect.Action.ADMIN_SECTION, {
-          //   name: Redirect.ResourceType.Discount,
-          // });    
+          redirect.dispatch(Redirect.Action.ADMIN_SECTION, {
+            name: Redirect.ResourceType.Discount,
+          });    
         },
       }}
       primaryAction={{
@@ -350,13 +346,9 @@ export default function MinimumSubtotalNew() {
               {
                 content: 'Discard',
                 onAction: () => {
-                  navigate({
-                    name: 'discounts'
-                  })
-        
-                  // redirect.dispatch(Redirect.Action.ADMIN_SECTION, {
-                  //   name: Redirect.ResourceType.Discount,
-                  // });        
+                  redirect.dispatch(Redirect.Action.ADMIN_SECTION, {
+                    name: Redirect.ResourceType.Discount,
+                  });        
                 },
               },
             ]}
