@@ -1,8 +1,12 @@
 import qrcode from "qrcode";
 import invariant from "tiny-invariant";
-import db from "../db.server";
+import { GraphQLClient } from "node_modules/@shopify/shopify-app-remix/dist/ts/server/clients/types";
+import { AdminOperations } from '@shopify/admin-api-client';
 
-export async function getQRCode(id, graphql) {
+import db from "../db.server";
+import { PrismaClient, QRCode } from "@prisma/client";
+
+export async function getQRCode(id: number, graphql: GraphQLClient<AdminOperations>) {
   const qrCode = await db.qRCode.findFirst({ where: { id } });
 
   if (!qrCode) {
@@ -12,7 +16,7 @@ export async function getQRCode(id, graphql) {
   return supplementQRCode(qrCode, graphql);
 }
 
-export async function getQRCodes(shop, graphql) {
+export async function getQRCodes(shop: string, graphql: GraphQLClient<AdminOperations>) {
   const qrCodes = await db.qRCode.findMany({
     where: { shop },
     orderBy: { id: "desc" },
@@ -25,7 +29,7 @@ export async function getQRCodes(shop, graphql) {
   );
 }
 
-export async function getQRCodesByProduct(shop, graphql, productId) {
+export async function getQRCodesByProduct(shop: string, graphql: GraphQLClient<AdminOperations>, productId: string) {
   const qrCodes = await db.qRCode.findMany({
     where: {
       AND: [
@@ -46,12 +50,12 @@ export async function getQRCodesByProduct(shop, graphql, productId) {
   );
 }
 
-export function getQRCodeImage(id) {
+export function getQRCodeImage(id: number) {
   const url = new URL(`/qrcodes/${id}/scan`, process.env.SHOPIFY_APP_URL);
   return qrcode.toDataURL(url.href);
 }
 
-export function getDestinationUrl(qrCode) {
+export function getDestinationUrl(qrCode: QRCode) {
   if (qrCode.destination === "product") {
     return `https://${qrCode.shop}/products/${qrCode.productHandle}`;
   }
@@ -62,7 +66,7 @@ export function getDestinationUrl(qrCode) {
   return `https://${qrCode.shop}/cart/${match[1]}:1`;
 }
 
-async function supplementQRCode(qrCode, graphql) {
+async function supplementQRCode(qrCode: QRCode, graphql: GraphQLClient<AdminOperations>) {
   const qrCodeImagePromise = getQRCodeImage(qrCode.id);
 
   const response = await graphql(
@@ -101,8 +105,15 @@ async function supplementQRCode(qrCode, graphql) {
   };
 }
 
-export function validateQRCode(data) {
-  const errors = {};
+interface QRCodeValidationData {
+  title: any
+  productId: any
+  destination: any
+  shop: string
+}
+
+export function validateQRCode(data: QRCodeValidationData) {
+  let errors: { title?: string, productId?: string, destination?: string} = {};
 
   if (!data.title) {
     errors.title = "Title is required";
