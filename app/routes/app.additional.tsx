@@ -8,6 +8,7 @@ import {
   Text,
   BlockStack,
 } from "@shopify/polaris";
+import { ReactNode } from "react";
 
 export default function AdditionalPage() {
   return (
@@ -64,7 +65,7 @@ export default function AdditionalPage() {
   );
 }
 
-function Code({ children }) {
+function Code({ children }: { children: ReactNode}) {
   return (
     <Box
       as="span"
