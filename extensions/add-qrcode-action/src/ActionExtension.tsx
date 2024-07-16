@@ -15,7 +15,7 @@ const TARGET = 'admin.product-details.action.render';
 
 export default reactExtension(TARGET, () => <App />);
 
-function validateForm (title, destination) {
+function validateForm (title: string|null, destination: string) {
   return {
     isValid: Boolean(title),
     errors: {
@@ -25,14 +25,19 @@ function validateForm (title, destination) {
   };
 };
 
+type FormError = {
+  title: boolean | null
+  destination: boolean | null
+} | null
+
 function App() {
   // The useApi hook provides access to several useful APIs like i18n, close, and data.
   const {i18n, close, data} = useApi(TARGET);
   console.log({data});
   const [productTitle, setProductTitle] = useState('');
-  const [formErrors, setFormErrors] = useState(null);
-  const [title, setTitle] = useState(null);
-  const [destination, setDestination] = useState('product');
+  const [formErrors, setFormErrors] = useState<FormError>(null);
+  const [title, setTitle] = useState<string | null>(null);
+  const [destination, setDestination] = useState<string>('product');
 
   // Use direct API calls to fetch data from Shopify.
   // See https://shopify.dev/docs/api/admin-graphql for more information about Shopify's GraphQL API
@@ -97,14 +102,14 @@ function App() {
       }
     >
       <TextField
-        value={title}
+        value={String(title)}
         error={formErrors?.title ? "Please enter a title" : undefined}
         onChange={(val) => setTitle(val)}
         label="Title"
         maxLength={50}
       />
       <ChoiceList
-        title="Scan destination"
+        // title="Scan destination"
         choices={[
           { label: "Link to product page", id: "product" },
           {
@@ -114,7 +119,11 @@ function App() {
         ]}
         value={destination}
         onChange={(_destination) => {
-          setDestination(_destination)
+          if(Array.isArray(_destination)) {
+            setDestination(_destination[0])
+          } else {
+            setDestination(_destination)
+          }
         }}
         error={formErrors?.destination ? "Please choose destination" : undefined}
       />
