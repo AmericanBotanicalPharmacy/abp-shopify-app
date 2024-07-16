@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { json, redirect, } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
+
 import {
   useActionData,
   useLoaderData,
@@ -33,7 +35,7 @@ import { ImageIcon } from "@shopify/polaris-icons";
 // import db from "../db.server";
 // import { getQRCode, validateQRCode } from "../models/QRCode.server";
 
-export async function action({ request, params }) {
+export async function action({ request, params }: ActionFunctionArgs) {
   const { session, admin, cors } = await authenticate.admin(request);
   const { shop } = session;
 
