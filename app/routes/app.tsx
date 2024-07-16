@@ -1,8 +1,11 @@
 import { json } from "@remix-run/node";
 import { Link, Outlet, useLoaderData, useRouteError } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { boundary } from "@shopify/shopify-app-remix/server";
 import { AppProvider } from "@shopify/shopify-app-remix/react";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
+import { HeadersArgs } from '@remix-run/server-runtime';
+
 import {I18nContext, I18nManager} from '@shopify/react-i18n';  // <-- add code
 import { AppProvider as DiscountProvider } from "@shopify/discount-app-components";
 import {Page, AppProvider as PolarisAppProvider} from '@shopify/polaris';
@@ -12,14 +15,14 @@ import { authenticate } from "../shopify.server";
 
 export const links = () => [{ rel: "stylesheet", href: polarisStyles }];
 
-export const loader = async ({ request }) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticate.admin(request);
 
   return json({ apiKey: process.env.SHOPIFY_API_KEY || "" });
 };
 
 export default function App() {
-  const { apiKey } = useLoaderData();
+  const { apiKey } = useLoaderData<typeof loader>();
   const i18nManager = new I18nManager({   // <-- add code
     locale: 'en'
   });
@@ -48,6 +51,6 @@ export function ErrorBoundary() {
   return boundary.error(useRouteError());
 }
 
-export const headers = (headersArgs) => {
+export const headers = (headersArgs: HeadersArgs) => {
   return boundary.headers(headersArgs);
 };
