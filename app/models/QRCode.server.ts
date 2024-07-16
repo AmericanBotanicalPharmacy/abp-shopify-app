@@ -131,3 +131,20 @@ export function validateQRCode(data: QRCodeValidationData) {
     return errors;
   }
 }
+
+export function createQRCode({ title, productId, destination, shop, productHandle, productVariantId }: Pick<QRCode, "title" | "productId" | "destination" | "shop" | "productHandle" | "productVariantId">) {
+  return db.qRCode.create({
+    data: {
+      title,
+      productId,
+      destination,
+      productHandle,
+      productVariantId,
+      shop
+    }
+  })
+}
+
+export function updateQRCode(id: number, data: Pick<QRCode, "title" | "productId" | "destination" | "shop" | "productHandle" | "productVariantId">) {
+  return db.qRCode.update({ where: { id }, data })
+}

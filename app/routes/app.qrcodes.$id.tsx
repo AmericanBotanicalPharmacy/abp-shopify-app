@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { json, redirect, } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
+
 import {
   useActionData,
   useLoaderData,
@@ -27,11 +29,12 @@ import {
   PageActions,
 } from "@shopify/polaris";
 import { ImageIcon } from "@shopify/polaris-icons";
+import { QRCode } from "@prisma/client";
 
 import db from "../db.server";
-import { getQRCode, validateQRCode } from "../models/QRCode.server";
+import { getQRCode, validateQRCode, createQRCode, updateQRCode } from "../models/QRCode.server";
 
-export async function loader({ request, params }) {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const { admin } = await authenticate.admin(request);
 
   console.log(params)
@@ -68,17 +71,38 @@ export async function loader({ request, params }) {
   return json(await getQRCode(Number(params.id), admin.graphql));
 }
 
-export async function action({ request, params }) {
+interface RequestData {
+  title: string
+  productId: string
+  productVariantId: string
+  productHandle: string
+  destination: string
+}
+
+export async function action({ request, params }: ActionFunctionArgs) {
   const { session } = await authenticate.admin(request);
   const { shop } = session;
 
+  const formPayload = await request.formData();
+  const title = formPayload.get('title') as string;
+  const productId = formPayload.get('productId')  as string
+  const destination = formPayload.get('destination')  as string
+  const productHandle = formPayload.get("productHandle")  as string
+  const productVariantId = formPayload.get("productHandle")  as string
+
+  const action = formPayload.get('action')
+
   /** @type {any} */
   const data = {
-    ...Object.fromEntries(await request.formData()),
+    title,
+    productId,
+    destination,
+    productHandle,
+    productVariantId,
     shop,
   };
 
-  if (data.action === "delete") {
+  if (action === "delete") {
     await db.qRCode.delete({ where: { id: Number(params.id) } });
     return redirect("/app");
   }
@@ -91,18 +115,40 @@ export async function action({ request, params }) {
 
   const qrCode =
     params.id === "new"
-      ? await db.qRCode.create({ data })
-      : await db.qRCode.update({ where: { id: Number(params.id) }, data });
+      ? await createQRCode(data)
+      : await updateQRCode(Number(params.id), data);
 
   return redirect(`/app/qrcodes/${qrCode.id}`);
 }
 
+interface ActionErrors {
+  [key: string]: string;
+}
+
+interface ActionData {
+  errors?: ActionErrors;
+}
+
+type QRCodeFormData = {
+  id?: string
+  title: string
+  destination: string
+  productId: string
+  productVariantId: string
+  productTitle: string
+  productHandle: string
+  productAlt?: string
+  productImage: string
+  destinationUrl: string
+  image: string
+}
+
 export default function QRCodeForm() {
-  const errors = useActionData()?.errors || {};
+  const errors = useActionData<ActionData>()?.errors || {};
   const params = useParams();
   const productId = params.productId;
 
-  const qrCode = useLoaderData();
+  const qrCode = useLoaderData<QRCodeFormData>();
   const [formState, setFormState] = useState(qrCode);
   const [cleanFormState, setCleanFormState] = useState(qrCode);
   const isDirty = JSON.stringify(formState) !== JSON.stringify(cleanFormState);
@@ -127,7 +173,7 @@ export default function QRCodeForm() {
       setFormState({
         ...formState,
         productId: id,
-        productVariantId: variants[0].id,
+        productVariantId: variants[0].id as string,
         productTitle: title,
         productHandle: handle,
         productAlt: images[0]?.altText,
@@ -201,7 +247,7 @@ export default function QRCodeForm() {
                   <InlineStack blockAlign="center" gap="500">
                     <Thumbnail
                       source={formState.productImage || ImageIcon}
-                      alt={formState.productAlt}
+                      alt={formState.productAlt ? formState.productAlt : ""}
                     />
                     <Text as="span" variant="headingMd" fontWeight="semibold">
                       {formState.productTitle}
