@@ -1,11 +1,12 @@
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 
 import db from "../db.server";
 import { getQRCodeImage } from "../models/QRCode.server";
 
-export const loader = async ({ params }) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.id, "Could not find QR code destination");
 
   const id = Number(params.id);
@@ -20,7 +21,7 @@ export const loader = async ({ params }) => {
 };
 
 export default function QRCode() {
-  const { image, title } = useLoaderData();
+  const { image, title } = useLoaderData<typeof loader>();
 
   return (
     <>

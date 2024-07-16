@@ -1,10 +1,11 @@
 import qrcode from "qrcode";
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 
 import db from "../db.server";
 
-export async function loader({ params }) {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   var id = params.id;
   const qrCode = await db.qRCode.findUnique({
     where: {
