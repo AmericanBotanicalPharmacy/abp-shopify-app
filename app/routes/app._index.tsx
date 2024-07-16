@@ -1,5 +1,9 @@
 import { json } from "@remix-run/node";
 import { useLoaderData, Link, useNavigate } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+
+import { PrismaClient, QRCode } from "@prisma/client";
+
 import { authenticate } from "../shopify.server";
 import {
   Card,
@@ -16,7 +20,7 @@ import {
 import { getQRCodes } from "../models/QRCode.server";
 import { AlertDiamondIcon, ImageIcon } from "@shopify/polaris-icons";
 
-export async function loader({ request }) {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
   const qrCodes = await getQRCodes(session.shop, admin.graphql);
 
@@ -25,7 +29,11 @@ export async function loader({ request }) {
   });
 }
 
-const EmptyQRCodeState = ({ onAction }) => (
+type EmptryStateProps = {
+  onAction: ()=>void
+}
+
+const EmptyQRCodeState = ({ onAction }: EmptryStateProps) => (
   <EmptyState
     heading="Create unique QR codes for your product"
     action={{
@@ -38,13 +46,31 @@ const EmptyQRCodeState = ({ onAction }) => (
   </EmptyState>
 );
 
-function truncate(str, { length = 25 } = {}) {
+function truncate(str: string, { length = 25 } = {}) {
   if (!str) return "";
   if (str.length <= length) return str;
   return str.slice(0, length) + "…";
 }
 
-const QRTable = ({ qrCodes }) => (
+type ExtendedQRcode = {
+  id: number;
+  title: string;
+  shop: string;
+  productId: string;
+  productHandle: string;
+  productVariantId: string;
+  destination: string;
+  scans: number;
+  productDeleted: boolean
+  productTitle?: string
+  productImage?: string | null
+  productAlt?: string
+  destinationUrl?: string | null
+  image?: string| null
+  createdAt?: string
+}
+
+const QRTable = ({ qrCodes }: { qrCodes: ExtendedQRcode[] }) => (
   <IndexTable
     resourceName={{
       singular: "QR code",
@@ -66,12 +92,12 @@ const QRTable = ({ qrCodes }) => (
   </IndexTable>
 );
 
-const QRTableRow = ({ qrCode }) => (
-  <IndexTable.Row id={qrCode.id} position={qrCode.id}>
+const QRTableRow = ({ qrCode }: { qrCode: ExtendedQRcode }) => (
+  <IndexTable.Row id={String(qrCode.id)} position={qrCode.id}>
     <IndexTable.Cell>
       <Thumbnail
         source={qrCode.productImage || ImageIcon}
-        alt={qrCode.productTitle}
+        alt={qrCode.productTitle ? qrCode.productTitle : ''}
         size="small"
       />
     </IndexTable.Cell>
@@ -89,7 +115,7 @@ const QRTableRow = ({ qrCode }) => (
           </Text>
         </InlineStack>
       ) : (
-        truncate(qrCode.productTitle)
+        truncate(qrCode.productTitle ? qrCode.productTitle : '')
       )}
     </IndexTable.Cell>
     <IndexTable.Cell>
@@ -99,7 +125,7 @@ const QRTableRow = ({ qrCode }) => (
 );
 
 export default function Index() {
-  const { qrCodes } = useLoaderData();
+  const { qrCodes } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
   return (
