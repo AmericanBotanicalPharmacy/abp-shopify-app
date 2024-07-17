@@ -23,11 +23,18 @@ const TARGET = 'admin.product-details.block.render';
 
 export default reactExtension(TARGET, () => <App />);
 
+type QRCode = {
+  id: number
+  title: string
+  imageUrl: string
+  image: string
+}
+
 function App() {
   // The useApi hook provides access to several useful APIs like i18n and data.
   const {i18n, data} = useApi(TARGET);
   const productId = data.selected[0].id;
-  const [qrCodes, setQrCodes] = useState([]);
+  const [qrCodes, setQrCodes] = useState<QRCode[]>([]);
 
   useEffect(() => {
     (async function getQrCodes() {
@@ -61,7 +68,7 @@ function App() {
                   >
                     <Box inlineSize="40%">
                       <Box inlineSize="100%">
-                        <Image src={imageUrl} />
+                        <Image src={imageUrl} alt={title} />
                       </Box>
                     </Box>
                   </InlineStack>
