@@ -1,5 +1,5 @@
 // @ts-check
-import { DiscountApplicationStrategy } from "../generated/api";
+import { DiscountApplicationStrategy, RunInput } from "../generated/api";
 
 // Use JSDoc annotations for type safety
 /**
@@ -22,18 +22,24 @@ const EMPTY_DISCOUNT = {
 * @param {RunInput} input
 * @returns {FunctionRunResult}
 */
-export function run(input) {
+export function run(input: RunInput) {
   const targets = input.cart.lines
   // Only include cart lines with a quantity of two or more
   .filter(line => line.quantity >= 2)
   .map(line => {
-    return /** @type {Target} */ ({
-      // Use the cart line ID to create a discount target
-      productVariant: {
-        id: line.merchandise.id
-      }
-    });
-  });
+    // Check if the merchandise is of type ProductVariant
+    if (line.merchandise.__typename === 'ProductVariant') {
+      return {
+        productVariant: {
+          id: line.merchandise.id
+        }
+      };
+    } else {
+      return null;
+    }
+  })
+  // Filter out any null values if handling differently
+  .filter((target) => { return target !== null});
 
   if (!targets.length) {
     // You can use STDERR for debug logs in your function
