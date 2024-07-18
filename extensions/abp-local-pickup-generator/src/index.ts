@@ -1,5 +1,7 @@
 // @ts-check
 
+import { InputQuery } from "../generated/api";
+
 // Use JSDoc annotations for type safety.
 /**
 * @typedef {import("../generated/api").InputQuery} InputQuery
@@ -12,7 +14,7 @@ export default /**
 * @param {InputQuery} input
 * @returns {FunctionResult}
 */
-  (input) => {
+  (input: InputQuery) => {
       const hasBulkyVariant = input.cart.lines.some((line) => {
         switch (line.merchandise.__typename) {
           case 'ProductVariant':
