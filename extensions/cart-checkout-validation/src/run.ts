@@ -1,5 +1,7 @@
 // @ts-check
 
+import { RunInput } from "../generated/api";
+
 // Use JSDoc annotations for type safety
 /**
 * @typedef {import("../generated/api").RunInput} RunInput
@@ -11,7 +13,7 @@
 * @param {RunInput} input
 * @returns {FunctionRunResult}
 */
-export function run(input) {
+export function run(input: RunInput) {
   // The error
   const error = {
     localizedMessage:
