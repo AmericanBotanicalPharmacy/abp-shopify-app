@@ -1,5 +1,7 @@
 // @ts-check
 
+import { RunInput } from "../generated/api";
+
 // Use JSDoc annotations for type safety
 /**
 * @typedef {import("../generated/api").RunInput} RunInput
@@ -12,7 +14,7 @@
 * @param {RunInput} input
 * @returns {FunctionRunResult}
 */
-export function run(input) {
+export function run(input: RunInput) {
   // The message to be added to the delivery option
   const message = "May be delayed due to weather conditions";
 
