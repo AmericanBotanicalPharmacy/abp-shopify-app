@@ -14,7 +14,7 @@ import {
   useApi,
 } from "@shopify/ui-extensions-react/admin";
 
-import { getIssues, updateIssues } from "./utils";
+import { Issue, getIssues, updateIssues } from "./utils";
 
 // The target used here must match the target used in the extension's .toml file at ./shopify.extension.toml
 const TARGET = "admin.product-details.block.render";
@@ -25,8 +25,8 @@ const PAGE_SIZE = 3;
 function App() {
   const { data, i18n } = useApi(TARGET);
   const [loading, setLoading] = useState(true);
-  const [initialValues, setInitialValues] = useState([]);
-  const [issues, setIssues] = useState([]);
+  const [initialValues, setInitialValues] = useState<boolean[]>([]);
+  const [issues, setIssues] = useState<Issue[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const productId = data.selected[0].id;
@@ -40,7 +40,7 @@ function App() {
 
       setLoading(false);
       if (productData?.data?.product?.metafield?.value) {
-        const parsedIssues = JSON.parse(
+        const parsedIssues: Issue[] = JSON.parse(
           productData.data.product.metafield.value
         );
         setInitialValues(
@@ -64,7 +64,7 @@ function App() {
     );
   }, [issuesCount, issues, currentPage]);
 
-  const handleChange = async (id, value) => {
+  const handleChange = async (id: string, value: string) => {
     // Update the local state of the extension to reflect changes
     setIssues((currentIssues) => {
       // Create a copy of the array so that you don't mistakenly mutate the state
@@ -84,7 +84,7 @@ function App() {
     });
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     // Create a new array of issues, leaving out the one that you're deleting
     const newIssues = issues.filter((issue) => issue.id !== id);
     // Save to the local state
@@ -137,9 +137,6 @@ function App() {
                           <Select
                             label="Status"
                             name="status"
-                            defaultValue={
-                              initialValues[index] ? "completed" : "todo"
-                            }
                             value={completed ? "completed" : "todo"}
                             onChange={(value) => handleChange(id, value)}
                             options={[

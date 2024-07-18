@@ -1,4 +1,11 @@
-export async function updateIssues(id, newIssues) {
+export type Issue = {
+  id: string
+  title: string
+  description: string
+  completed: boolean
+}
+
+export async function updateIssues(id: string, newIssues: Issue[]) {
   // This example uses metafields to store the data. For more information, refer to https://shopify.dev/docs/apps/custom-data/metafields.
   return await makeGraphQLQuery(
     `mutation SetMetafield($namespace: String!, $ownerId: ID!, $key: String!, $type: String!, $value: String!) {
@@ -28,7 +35,7 @@ export async function updateIssues(id, newIssues) {
   );
 }
 
-export async function getIssues(productId) {
+export async function getIssues(productId: string) {
   // This example uses metafields to store the data. For more information, refer to https://shopify.dev/docs/apps/custom-data/metafields.
   return await makeGraphQLQuery(
     `query Product($id: ID!) {
@@ -43,7 +50,7 @@ export async function getIssues(productId) {
   );
 }
 
-async function makeGraphQLQuery(query, variables) {
+async function makeGraphQLQuery(query: string, variables: any) {
   const graphQLQuery = {
     query,
     variables,
