@@ -1,4 +1,4 @@
-export async function updateLoyaltyPoints(segmentId, points) {
+export async function updateLoyaltyPoints(segmentId: string, points: number) {
   const customerIds = await getCustomerIds(segmentId);
 
   // This example uses metafields to store the data. For more information, refer to https://shopify.dev/docs/apps/custom-data/metafields.
@@ -21,7 +21,7 @@ export async function updateLoyaltyPoints(segmentId, points) {
     }
   `,
     {
-      metafields: customerIds.map((customerId) => ({
+      metafields: customerIds.map((customerId: string) => ({
         ownerId: customerId,
         namespace: "$app:customerLoyalty",
         key: "points",
@@ -32,7 +32,7 @@ export async function updateLoyaltyPoints(segmentId, points) {
   );
 }
 
-export async function getCustomerIds(segmentId) {
+export async function getCustomerIds(segmentId: string) {
   // This example uses metafields to store the data. For more information, refer to https://shopify.dev/docs/apps/custom-data/metafields.
   const response = await makeGraphQLQuery(
     `query Segment($id: ID!) {
@@ -48,10 +48,10 @@ export async function getCustomerIds(segmentId) {
     { id: segmentId }
   );
 
-  return response.data.customerSegmentMembers.edges.map((edge) => edge.node.id);
+  return response.data.customerSegmentMembers.edges.map((edge: { node: { id: number }}) => edge.node.id);
 }
 
-async function makeGraphQLQuery(query, variables) {
+async function makeGraphQLQuery(query: string, variables: any) {
   const graphQLQuery = {
     query,
     variables,
