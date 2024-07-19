@@ -6,6 +6,6 @@ handle = "loyalty-points-action"
 type = "ui_extension"
 
 [[extensions.targeting]]
-module = "./src/ActionExtension.jsx"
+module = "./src/ActionExtension.tsx"
 # The target must match the target used in the module file (./src/ActionExtension.jsx)
 target = "admin.customer-segment-details.action.render"
