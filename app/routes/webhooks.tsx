@@ -1,7 +1,8 @@
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 
-export const action = async ({ request }) => {
+export const action = async ({ request }: LoaderFunctionArgs) => {
   const { topic, shop, session, admin, payload } = await authenticate.webhook(request);
 
   if (!admin) {
@@ -14,7 +15,7 @@ export const action = async ({ request }) => {
   console.log(topic)
   console.log(payload)
 
-  switch (topic) {
+  switch (topic as string) {
     case "APP_UNINSTALLED":
       if (session) {
         await db.session.deleteMany({ where: { shop } });
