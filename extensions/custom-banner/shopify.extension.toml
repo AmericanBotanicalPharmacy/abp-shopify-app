@@ -15,12 +15,12 @@ handle = "custom-banner"
 # https://shopify.dev/docs/api/checkout-ui-extensions/unstable/targets-overview
 [[extensions.targeting]]
 target = "purchase.checkout.block.render"
-module = "./src/Checkout.jsx"
+module = "./src/Checkout.tsx"
 export = "checkoutBlock"
 
 [[extensions.targeting]]
 target = "purchase.checkout.delivery-address.render-before"
-module = "./src/Checkout.jsx"
+module = "./src/Checkout.tsx"
 export = "deliveryAddress"
 
 [extensions.capabilities]
